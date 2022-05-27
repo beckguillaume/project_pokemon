@@ -44,8 +44,9 @@ for i in range(len(JOUEURS_LIST)):
     print(i)
     msg=["Connexion du joueur",i+1,address]
     print(str(msg))
-    msg="Tous les joueurs sont connectés, la partie peut commencer !"
+    msg=["Tous les joueurs sont connectés, la partie peut commencer ! Vous êtes le joueur",i+1]
     JOUEURS_LIST[i].send(str(msg).encode('utf-8'))
+    JOUEURS_LIST[i].send(str(i).encode('utf-8'))
 
 i=0
 while exit == 0:
