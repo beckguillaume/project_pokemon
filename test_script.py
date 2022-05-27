@@ -9,17 +9,6 @@ import random
 import re
 
 
-
-
-
-
-
-
-
-
-
-
-
 ###--------------------------------
 # Initiation des classes
 ###--------------------------------
@@ -79,23 +68,7 @@ class joueur():
 
 
 class pokemon():
-    # def __init__(self,nom):
-    #     self.nom=nom
-    #     self.status="ok"
     def __init__(self,id,nom,type,status,actif,faiblesse,resistance,hp,attaque,defense,sp_attaque,sp_def,vitesse):
-        # self.id=0
-        # self.nom=pikachu
-        # self.type=electric
-        # self.status=ok
-        # self.actif=False
-        # self.faiblesse=[herbe,dragon]
-        # self.resistance=[eau,vol]
-        # self.hp=35
-        # self.attaque=55
-        # self.defense=40
-        # self.sp_attaque=50
-        # self.sp_def=50
-        # self.vitesse=90
         self.id=id
         self.nom=nom
         self.type=type
@@ -109,8 +82,8 @@ class pokemon():
         self.sp_attaque=sp_attaque
         self.sp_def=sp_def
         self.vitesse=vitesse
-    def presentation_pokemon(self,id):
-        # self.id=id
+    def presentation_pokemon(self):
+        #self.id=id
         print("id",self.id,"nom",self.nom,"type",self.type,"status",self.status,"actif",self.actif,"faiblesse",self.faiblesse,"resistance",self.resistance,"hp",self.hp,"attaque",self.attaque,"defense",self.defense,"sp_attaque",self.sp_attaque,"sp_def",self.sp_def,"vitesse",self.vitesse)
     # def pokedex(self,id):
     #     data_pokemon= open("pokedex.json","r") 
@@ -120,29 +93,35 @@ class pokemon():
     #     self.nom=obj_pokemon[1]['name']['french']
 
 
+
+
+
+
 class action():
+    def __init__(self, pok1, pok2):
+        self.damage_multiplier = 1
+        self.att_pk1=pok1.attaque
+        self.def_pk2=pok2.defense
+        self.hp_pk2= pok2.hp
 
-
-    def __init__(self):
-        damage_multiplier = 1
-    
-
-    def attaque(self,att_pk1,def_pk2,hp_pk2):
+    def attaque(self):
+        print("Pok1 attaque")
         # pour resistance et faiblesse            
         #   check type pok j1 et pok j2 
         # attaque - def --> if > 0 : enleve pv
-        degats = self.att_pk1 - self.def_pk2
+        print(self.hp_pk2)
+        degats = self.def_pk2 - self.att_pk1 
         self.hp_pk2-= degats
+        print(self.hp_pk2)
         if self.hp_pk2 <= 0 :
             print("pok2 KO")
             pass
             # actualiser le status du pokemon 2 en ko
             # call module change pour joueur 2
+            # vérif vie max pour bdd
         else :
             print ("continuer a vous taper dessus")
         # interrupteur change joueur
- 
-
 
     def change(self):
         pass
@@ -161,25 +140,27 @@ class action():
         # sinon passe le tour à l'autre joueur
 
 class partie():
-    def __init__(self):
+    def __init__(self, numero):
+
         pass
-    def fin_partie():
+    def debut(self, user_name):
+
         pass
         # tout les pokemons ko
         # ou un joueur fuit
-    def debut():
+    def liste_pk_joueurs(self, user_name):
+
+        print(i)
+            
+            
+        
+    def fin_partie():
         pass
         # choisi 2 joueurs
         # restore hp et change status de ko > ok
         # pick random pokemon dans le roester (random sur range nombre pokemon)
         # check vitesse des 2 pokemons
         # coinflip si vitesse égale
-
-
-###--------------------------------
-# Initiation des fonctions
-###--------------------------------
-
 
 
 
@@ -192,25 +173,31 @@ pok2=pokemon(2,"salameche","feu","ok",False,["feu","dragon"],["eau","vol"],45,35
 pok3=pokemon(3,"carapuce","feu","ok",False,["combat","dragon"],["electric","vol"],55,40,30,40,20,50)
 pok4=pokemon(4,"herbizare","herbe","ok",False,["electric","dragon"],["feu","vol"],15,75,30,45,65,80)
 
+print(pok1.vitesse)
 
-action.attaque("a",15,15,60)
-        # self.att_pk1=15
-        # self.att_pk2=20
-        # self.vit_pk1=30
-        # self.vit_pk2=40
-        # self.hp_pk1=55
-        # self.hp_pk2=65
-        # self.def_pk1=13
-        # self.def_pk2=15
+# joueur_1=partie(1).debut
+# partie(2).debut
+# joueur_1.liste_pk_joueurs()
+
+
+
+
+
+action(pok1, pok2).attaque()
+print(pok1.presentation_pokemon())
+print(pok2.presentation_pokemon())
+
+
+
+
+
 # 2 types de synthaxe
 # pokemon.presentation_pokemon(pok1)
 # pok1.presentation_pokemon(5)
 
 ### Récupération du nom d'user + création joueur via classe + Vérification sur bbd.csv
 
-# user_name=input("Joueur 1 quel est votre pseudo? ")
-# joueur_1=joueur(1)
-# joueur_1.presentation_joueur(user_name)
+
 
 # liste_poke_j1=joueur_1.id_poke_joueur(user_name)
 # print(liste_poke_j1)
