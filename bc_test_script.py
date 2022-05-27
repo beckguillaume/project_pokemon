@@ -55,18 +55,26 @@ class joueur():
         self.nbr_poke=nbr_pk
         print("nombre de pokemon ",self.nbr_poke)
     
-    def id_poke_joueur(self,nom):
-        # nom="joueur1"
-        with open('bdd_joueurs.csv', 'r') as f:
-            data_joueur = csv.DictReader(f)        
-            for line in data_joueur:
-                if line['name'] == nom:
-                    pk_joueur=line['liste_poke']
-        # print(pk_joueur)
-        w=pk_joueur[1:-1]
-        y=w.split(",")
-        return y
-        # print(y[0])
+    # def id_poke_joueur(self,nom):
+    #     with open('bdd_joueurs.csv', 'r') as f:
+    #         data_joueur = csv.DictReader(f)        
+    #         for line in data_joueur:
+    #             if line['name'] == nom:
+    #                 liste_pk=line['liste_poke']
+    #     self.liste_poke=liste_pk
+    #     print("liste pokemon ", self.liste_poke)
+    #     return self.liste_poke
+
+nom="joueur1"
+with open('bdd_joueurs.csv', 'r') as f:
+    data_joueur = csv.DictReader(f)        
+    for line in data_joueur:
+        if line['name'] == nom:
+            pk_joueur=line['liste_poke']
+print(pk_joueur)
+w=pk_joueur[1:-1]
+y=w.split(",")
+print(y[0])
 
     ### Fonction pour créer un nouveau joueur + modification sur bdd.csv
     def crea_joueur(self,name):
@@ -109,8 +117,8 @@ class pokemon():
         self.sp_attaque=sp_attaque
         self.sp_def=sp_def
         self.vitesse=vitesse
-    def presentation_pokemon(self,id):
-        # self.id=id
+    def presentation_pokemon(self,joueur,id):
+        self.id=id
         print("id",self.id,"nom",self.nom,"type",self.type,"status",self.status,"actif",self.actif,"faiblesse",self.faiblesse,"resistance",self.resistance,"hp",self.hp,"attaque",self.attaque,"defense",self.defense,"sp_attaque",self.sp_attaque,"sp_def",self.sp_def,"vitesse",self.vitesse)
     # def pokedex(self,id):
     #     data_pokemon= open("pokedex.json","r") 
@@ -121,29 +129,14 @@ class pokemon():
 
 
 class action():
-
-
     def __init__(self):
         damage_multiplier = 1
-    
-
-    def attaque(self,att_pk1,def_pk2,hp_pk2):
+    def attaque(self):
+        pass
         # pour resistance et faiblesse            
         #   check type pok j1 et pok j2 
         # attaque - def --> if > 0 : enleve pv
-        degats = self.att_pk1 - self.def_pk2
-        self.hp_pk2-= degats
-        if self.hp_pk2 <= 0 :
-            print("pok2 KO")
-            pass
-            # actualiser le status du pokemon 2 en ko
-            # call module change pour joueur 2
-        else :
-            print ("continuer a vous taper dessus")
-        # interrupteur change joueur
- 
-
-
+            
     def change(self):
         pass
         # appelle collection_pokemon pour afficher les pokemons du joueur
@@ -193,32 +186,43 @@ pok3=pokemon(3,"carapuce","feu","ok",False,["combat","dragon"],["electric","vol"
 pok4=pokemon(4,"herbizare","herbe","ok",False,["electric","dragon"],["feu","vol"],15,75,30,45,65,80)
 
 
-action.attaque("a",15,15,60)
-        # self.att_pk1=15
-        # self.att_pk2=20
-        # self.vit_pk1=30
-        # self.vit_pk2=40
-        # self.hp_pk1=55
-        # self.hp_pk2=65
-        # self.def_pk1=13
-        # self.def_pk2=15
 # 2 types de synthaxe
 # pokemon.presentation_pokemon(pok1)
-# pok1.presentation_pokemon(5)
+pok1.presentation_pokemon("joueur1",5)
+# pok2.presentation_pokemon("joueur1",5)
+
+
+
 
 ### Récupération du nom d'user + création joueur via classe + Vérification sur bbd.csv
 
-# user_name=input("Joueur 1 quel est votre pseudo? ")
-# joueur_1=joueur(1)
-# joueur_1.presentation_joueur(user_name)
-
-# liste_poke_j1=joueur_1.id_poke_joueur(user_name)
-# print(liste_poke_j1)
-# print(liste_poke_j1[0])
-
-# for i in range(len(liste_poke_j1)):
+user_name=input("Joueur 1 quel est votre pseudo? ")
+joueur_1=joueur(1)
+joueur_1.presentation_joueur(user_name)
 
 
+
+# liste_poke=joueur_1.id_poke_joueur(user_name)
+# nbr=re.compile("[0-9]")
+# z=list(filter(nbr.match, liste_poke))
+# print(z)
+
+
+
+nom="joueur1"
+with open('bdd_joueurs.csv', 'r') as f:
+    data_joueur = csv.DictReader(f)        
+    for line in data_joueur:
+        if line['name'] == nom:
+            pk_joueur=line['liste_poke']
+print(pk_joueur)
+w=pk_joueur[1:-1]
+y=w.split(",")
+print(y[0])
+
+
+# print(type(z))
+# print(type(z[0]))
 # for i in range(len(z)) :
 #     print("z[i]",z[i])
 #     print(i)
