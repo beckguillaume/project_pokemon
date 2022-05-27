@@ -56,6 +56,8 @@ else :  # on est le joueur 2
         else :
             msg=input("/> ")   # sinon il envoie
             s.sendall(msg.encode('utf-8'))
+            if msg.decode('utf-8') == 'exit':          # et exit s'il reçoit exit
+                exit=1
         
 # closing socket
 s.close()
