@@ -6,7 +6,7 @@ PARTIE 1 : Camille & Guillaume
 
 script_partie1.py
 
-Contient les classes et fonction pour initier la partie, sélectionner deux joueurs
+Contient les classes et fonctions pour initier la partie, sélectionner deux joueurs
 (par défault gertrude et albert présent dans la liste de dictionnaire au début du script);
 les actions au cours de la partie (attaque, change, fuite), les changements de pokémons,
 conditions de victoire/fin de partie.
@@ -14,9 +14,18 @@ conditions de victoire/fin de partie.
 PARTIE 2 : Sidney & Felix
 
 
-
 PARTIE 3 : Arthur et Soufian
 
-etudier les sockets en python
+fichiers pokemon_socket et client_poke_socket
 
-problematique : gérer les requêtes de modification BDD des joueurs 
+Le fichier pokemon_socket permet de lancer un socket en mode serveur (écoute). 
+Il est configuré pour créer un chat entre deux instances du script client_poke_socket.
+Les messages envoyés depuis un des clients est transféré par le serveur à l'autre client.
+
+Dans le dossier run : 
+	- pokemon_socket est composé de fonctions
+	- pokemon_socket est importé dans script_partie1
+	- script_partie1 implémente partiellement ces fonctions pour être utilisé par deux fichiers clients
+	- les sockets client peuvent communiquer avec le socket serveur lancé par script_partie1
+	- l'implémentation n'a pu être terminé faute de temps
+	
