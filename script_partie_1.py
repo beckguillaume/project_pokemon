@@ -7,7 +7,6 @@ import random
 ##import bdd format dico
 
 dic_joueur = [{"joueur": "gertrude",
-               "nbr_poke":3,
                 "ls_poke": [{
                 "id": 4,
                 "status": "inactif",
@@ -75,7 +74,6 @@ dic_joueur = [{"joueur": "gertrude",
                 },
                 {
                 "joueur": "albert",
-                "nbr_poke":2,
                 "ls_poke": [{
                     "id": 102,
                     "status": "inactif",
@@ -232,14 +230,19 @@ class qui_commence():
 
 ###Fonction pour récupérer des informations sur le pokemon actif
 def info_poke_actif(joueur):
+    game_in = True
+    info_poke={}
     for j in range(len(dic_joueur)):
         ls_poke=dic_joueur[j]["ls_poke"]
-        for p in range(len(ls_poke)):
-            if joueur[1] == dic_joueur[j]["ls_poke"][p]["name"]["french"]:
-                info_poke=dic_joueur[j]["ls_poke"][p]["base"]
-                #print("Voici les statistiques de votre pokemon",joueur[0],":")
-                #print(info_poke)
-    return info_poke
+        if ls_poke == 0:
+            game_in=False                       
+        else:            
+            for p in range(len(ls_poke)):
+                if joueur[1] == dic_joueur[j]["ls_poke"][p]["name"]["french"]:
+                    info_poke=dic_joueur[j]["ls_poke"][p]["base"]
+                    print("Voici les statistiques de votre pokemon",joueur[1],":")
+                    #print(info_poke)
+    return info_poke, game_in
 
 
 ###Fonction pour présenter les joueurs
@@ -252,41 +255,70 @@ def presentation_joueur(joueur_1, joueur_2):
 class actions():
        
     def poke_changement_proprio(self, a, b):
-        game_in=True
         #récupération des infos du poke que le joueur b a perdu
-        for i in range(len(dic_joueur)):
-            ls_poke=dic_joueur[i]["ls_poke"]            
-            for p in range(len(ls_poke)):
-                ls_poke=dic_joueur[i]["ls_poke"] 
-                if b[0] == dic_joueur[i]["joueur"]:
-                    if len(ls_poke) == 0:
-                        game_in = False
-                    else:
-                        game_in = True
-                        if b[1] == dic_joueur[i]["ls_poke"][p]["name"]["french"]:
-                            copie = dic_joueur[i]["ls_poke"][p]
-                            num_poke=p
-                            num_joueur=i
+        for i in range(len(dic_joueur)):             
+            if b[0] == dic_joueur[i]["joueur"]:
+                ls_poke=dic_joueur[i]["ls_poke"]          
+                for p in range(len(ls_poke)):  
+                    print(b[1])              
+                    if b[1] == dic_joueur[i]["ls_poke"][p]["name"]["french"]:
+                        dic_joueur[i]["ls_poke"][p]["status"]="inactif"
+                        num_pok=p
+                        copie = dic_joueur[i]["ls_poke"][num_pok]                        
+                        del dic_joueur[i]["ls_poke"][p] 
+                        break                       
+                        # num_poke=p
+                        # num_joueur=i
         #supression du poke dans la liste du joueur b  
-        if game_in == True:           
-            del dic_joueur[num_joueur]["ls_poke"][num_poke]
-            #ajout du poke dans la liste du joueur a          
-            for i in range(len(dic_joueur)):
-                if a[0] == dic_joueur[i]["joueur"]:
-                    dic_joueur[i]["ls_poke"][-1]=copie
+        #if game_in == True:           
+        #del dic_joueur[num_joueur]["ls_poke"][num_poke]
+        #ajout du poke dans la liste du joueur a          
+        for i in range(len(dic_joueur)):
+            if a[0] == dic_joueur[i]["joueur"]:
+                dic_joueur[i]["ls_poke"].append(copie)
+        
+        game_in=True        
+        for i in range(len(dic_joueur)):
+            if a[0] == dic_joueur[i]["joueur"]:
+                ls_poke=int(len(dic_joueur[i]["ls_poke"]))
+                if ls_poke == 0:
+                    game_in=False 
+                else:
+                    c=0
+                    for p in range(ls_poke):              
+                        if dic_joueur[i]["ls_poke"][p]["base"]["HP"] >0:
+                            c+=1
+                    if c == 0:
+                        game_in=False
+            if b[0] == dic_joueur[i]["joueur"]:
+                ls_poke=int(len(dic_joueur[i]["ls_poke"]))
+                if ls_poke == 0:
+                    game_in=False 
+                else:
+                    c=0
+                    for p in range(ls_poke):              
+                        if dic_joueur[i]["ls_poke"][p]["base"]["HP"] > 0:
+                            c+=1
+                    if c == 0:
+                        game_in=False
+                
+        #print(dic_joueur)
         return game_in
+    
                 
     ## Fonction pour l'option attaque avec a = joueur qui attaque et b joueur qui subit        
     def attaque(self, a, b): 
         game_in=True
         perte_poke=False
-        (info_poke_1)=info_poke_actif(a)
+        (info_poke_1, game_in)=info_poke_actif(a)
+        print(info_poke_1)
         att_pk1 = info_poke_1["Attack"]
-        (info_poke_2)=info_poke_actif(b)
+        (info_poke_2, game_in)=info_poke_actif(b)
+        print(info_poke_2)
         def_pk2 = info_poke_2["Defense"]
         hp_pk2=info_poke_2["HP"]
-        
-        damage_multiplier = 1
+        #check type bdd pour faiblesses et résistances
+        damage_multiplier = 3
                 # pour resistance et faiblesse
                 #   check type pok j1 et pok j2
                 # attaque - def --> if > 0 : enleve pv
@@ -295,20 +327,29 @@ class actions():
         #print(a[1],"attaque")
         print("\033[0;31m" + a[1] +" attaque" + "\033[0m")
         
-        degats = def_pk2 - att_pk1
+        degats = att_pk1 * damage_multiplier - def_pk2
         #print(def_pk2, att_pk1)
         #print(degats)
-        hp_pk2 = hp_pk2 - degats
+        if degats > 0:
+            hp_pk2 = hp_pk2 - degats        
         if hp_pk2 <= 0:
             perte_poke=True
             #print(b[1], "KO")
             print("\033[0;31m" + b[1], " KO" + "\033[0m")
             #print(b[1], "change de dresseur")
             print("\033[0;31m" + b[1], " change de dresseur"+ "\033[0m")
-            (game_in)=self.poke_changement_proprio(a, b)
+            for j in range(len(dic_joueur)):
+                ls_poke=dic_joueur[j]["ls_poke"]
+                for p in range(len(ls_poke)):
+                    if b[1] == dic_joueur[j]["ls_poke"][p]["name"]["french"]:
+                        dic_joueur[j]["ls_poke"][p]["base"]["HP"] = 0
+            
+            game_in=self.poke_changement_proprio(a, b)
             #si nbr_poke=0 pas de changement de pokemon
-            (game_in)=self.changement_de_pokemon(b)            
-            info_poke_2["HP"]=0
+            if game_in == True:
+                (game_in)=self.changement_de_pokemon(b)
+            
+            #info_poke_2["HP"]=0
         else: info_poke_2["HP"]=hp_pk2
         #print(hp_pk2)
         return game_in, perte_poke
@@ -338,7 +379,7 @@ class actions():
             else:
                 if a[0] == dic_joueur[j]["joueur"]:
                     for p in range(len(ls_poke)):
-                        if dic_joueur[j]["ls_poke"][p]["status"] == "inactif":
+                        if dic_joueur[j]["ls_poke"][p]["status"] == "inactif" and dic_joueur[j]["ls_poke"][p]["base"]["HP"] > 0 :
                             poke=dic_joueur[j]["ls_poke"][p]["name"]["french"]
                             liste_poke_dispo.append(poke)
         if game_in==True:                    
@@ -348,20 +389,26 @@ class actions():
 
             choix_poke=int(input("Choisissez votre pokemon par le numéro: "))
             #passage des actif en inactif
+            #print(dic_joueur)
             for j in range(len(dic_joueur)):
                 ls_poke=dic_joueur[j]["ls_poke"]
                 if a[0] == dic_joueur[j]["joueur"]:
                     for p in range(len(ls_poke)):
                         if dic_joueur[j]["ls_poke"][p]["status"] == "actif":
                             dic_joueur[j]["ls_poke"][p]["status"] = "inactif"
-            #passage du poke choisi d'inactif a actif
-            for j in range(len(dic_joueur)):
-                ls_poke=dic_joueur[j]["ls_poke"]
-                if a[0] == dic_joueur[j]["joueur"]:
-                    for p in range(len(ls_poke)):
                         if dic_joueur[j]["ls_poke"][p]["name"]["french"] == liste_poke_dispo[choix_poke]:
                             dic_joueur[j]["ls_poke"][p]["status"] = "actif"
-                            print("pokemon changé")
+                            a[1]=dic_joueur[j]["ls_poke"][p]["name"]["french"]
+                            print(a)
+            #passage du poke choisi d'inactif a actif
+            # for j in range(len(dic_joueur)):
+            #     ls_poke=dic_joueur[j]["ls_poke"]
+            #     if a[0] == dic_joueur[j]["joueur"]:
+            #         for p in range(len(ls_poke)):
+                        
+                        print("pokemon changé")
+                        info_poke_actif(a)
+            #print(dic_joueur)
         elif game_in==False:
             print("Vous n'avez plus de pokemon")
         return game_in
@@ -421,11 +468,11 @@ initialisation.activation_poke(pokemaster)
 for y in range(len(dic_joueur)):
     if joueur_1[0] == dic_joueur[y]["joueur"]:
         #id_joueur_1=y
-        nbr_poke_1=dic_joueur[y]["nbr_poke"]
+        nbr_poke_1=len(dic_joueur[y]["ls_poke"])
 for z in range(len(dic_joueur)):
     if joueur_2[0] == dic_joueur[z]["joueur"]:
         #id_joueur_1=z
-        nbr_poke_2=dic_joueur[z]["nbr_poke"]
+        nbr_poke_2=len(dic_joueur[z]["ls_poke"])
 #return nbr_poke_1, nbr_poke_2    
 
 
@@ -437,30 +484,32 @@ while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
     again="on"        
     while again == "on" and nbr_poke_1 > 0 and game_in == True:
         print("C'est au tour de", joueur_1[0])
-        info_poke_actif(joueur_1)
+        #info_poke_actif(joueur_1)
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_1, joueur_2)
         if perte_poke == True:
             nbr_poke_1-=1
         #print(game_in)
+        #print(dic_joueur)
         again="off"
         
     again="on"
     while again == "on" and nbr_poke_2 > 0 and game_in == True:
         print("C'est au tour de", joueur_2[0])
-        info_poke_actif(joueur_2)
+        #info_poke_actif(joueur_2)
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_2, joueur_1)
         if perte_poke == True:
             nbr_poke_2-=1
         #print(game_in)
+        #print(dic_joueur)
         again="off"
 
 if nbr_poke_2 > 0 and nbr_poke_1 == 0:
     print("Bravo", joueur_2[0])
     print("\033[0;36m" + "Bravo", joueur_2[0] + "\033[0m")
 elif nbr_poke_2 == 0 and nbr_poke_1 > 0:
-    print("Bravo joueur_1[0]")
+    print("Bravo", joueur_1[0])
     print("\033[0;36m" + "Bravo", joueur_1[0] + "\033[0m")
 
 
