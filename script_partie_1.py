@@ -7,6 +7,7 @@ import random
 ##import bdd format dico
 
 dic_joueur = [{"joueur": "gertrude",
+               "nbr_poke":3,
                 "ls_poke": [{
                 "id": 4,
                 "status": "inactif",
@@ -74,6 +75,7 @@ dic_joueur = [{"joueur": "gertrude",
                 },
                 {
                 "joueur": "albert",
+                "nbr_poke":2,
                 "ls_poke": [{
                     "id": 102,
                     "status": "inactif",
@@ -255,6 +257,7 @@ class actions():
         for i in range(len(dic_joueur)):
             ls_poke=dic_joueur[i]["ls_poke"]            
             for p in range(len(ls_poke)):
+                ls_poke=dic_joueur[i]["ls_poke"] 
                 if b[0] == dic_joueur[i]["joueur"]:
                     if len(ls_poke) == 0:
                         game_in = False
@@ -303,6 +306,7 @@ class actions():
             #print(b[1], "change de dresseur")
             print("\033[0;31m" + b[1], " change de dresseur"+ "\033[0m")
             (game_in)=self.poke_changement_proprio(a, b)
+            #si nbr_poke=0 pas de changement de pokemon
             (game_in)=self.changement_de_pokemon(b)            
             info_poke_2["HP"]=0
         else: info_poke_2["HP"]=hp_pk2
@@ -417,11 +421,11 @@ initialisation.activation_poke(pokemaster)
 for y in range(len(dic_joueur)):
     if joueur_1[0] == dic_joueur[y]["joueur"]:
         #id_joueur_1=y
-        nbr_poke_1=len(dic_joueur[y]["ls_poke"])
+        nbr_poke_1=dic_joueur[y]["nbr_poke"]
 for z in range(len(dic_joueur)):
     if joueur_2[0] == dic_joueur[z]["joueur"]:
         #id_joueur_1=z
-        nbr_poke_2=len(dic_joueur[z]["ls_poke"])
+        nbr_poke_2=dic_joueur[z]["nbr_poke"]
 #return nbr_poke_1, nbr_poke_2    
 
 
@@ -448,7 +452,7 @@ while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_2, joueur_1)
         if perte_poke == True:
-            nbr_poke_1-=1
+            nbr_poke_2-=1
         #print(game_in)
         again="off"
 
