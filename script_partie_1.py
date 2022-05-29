@@ -434,7 +434,7 @@ class actions():
                 #print("Fuite réussie")
                 print("\033[0;32m" + "Fuite réussie" + "\033[0m")
                 #print(a[0],"s'est enfui")
-                print("\033[0;32m"+ a[0]," s'est enfui" + "\033[0m") 
+                print("\033[0;32m"+ a[0]," a fui" + "\033[0m") 
                 game_in = False # = fin du jeu
             elif result_fuite == False:
                 #print("Fuite échouée")
@@ -483,7 +483,8 @@ game_in=True
 while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
     again="on"        
     while again == "on" and nbr_poke_1 > 0 and game_in == True:
-        print("C'est au tour de", joueur_1[0])
+        #print("C'est au tour de", joueur_1[0])
+        print("\033[1;33m" + "C'est au tour de", joueur_1[0] + "\033[0m")
         #info_poke_actif(joueur_1)
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_1, joueur_2)
@@ -495,7 +496,8 @@ while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
         
     again="on"
     while again == "on" and nbr_poke_2 > 0 and game_in == True:
-        print("C'est au tour de", joueur_2[0])
+        #print("C'est au tour de", joueur_2[0])
+        print("\033[0;35m" + "C'est au tour de", joueur_2[0] + "\033[0m")
         #info_poke_actif(joueur_2)
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_2, joueur_1)
@@ -506,10 +508,10 @@ while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
         again="off"
 
 if nbr_poke_2 > 0 and nbr_poke_1 == 0:
-    print("Bravo", joueur_2[0])
+    #print("Bravo", joueur_2[0])
     print("\033[0;36m" + "Bravo", joueur_2[0] + "\033[0m")
 elif nbr_poke_2 == 0 and nbr_poke_1 > 0:
-    print("Bravo", joueur_1[0])
+    #print("Bravo", joueur_1[0])
     print("\033[0;36m" + "Bravo", joueur_1[0] + "\033[0m")
 
 
