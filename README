@@ -2,6 +2,19 @@ Project Pokemon
 
 Groupe 1 : Camille, Sidney, Arthur, Soufian, Felix, Guillaume
 
+PARTIE 1 : Camille & Guillaume
+
+script_partie1.py
+
+Contient les classes et fonction pour initier la partie, sélectionner deux joueurs
+(par défault gertrude et albert présent dans la liste de dictionnaire au début du script);
+les actions au cours de la partie (attaque, change, fuite), les changements de pokémons,
+conditions de victoire/fin de partie.
+
+PARTIE 2 : Sidney & Felix
+
+
+
 PARTIE 3 : Arthur et Soufian
 
 etudier les sockets en python
