@@ -11,6 +11,9 @@ Contient les classes et fonctions pour initier la partie, sélectionner deux jou
 les actions au cours de la partie (attaque, change, fuite), les changements de pokémons,
 conditions de victoire/fin de partie.
 
+pour lancer le script :
+python script_partie1.py
+
 PARTIE 2 : Sidney & Felix
 
 
@@ -22,10 +25,18 @@ Le fichier pokemon_socket permet de lancer un socket en mode serveur (écoute).
 Il est configuré pour créer un chat entre deux instances du script client_poke_socket.
 Les messages envoyés depuis un des clients est transféré par le serveur à l'autre client.
 
+Si les fichiers sont dans le répertoire courant :
+commandes côté serveur : python pokemon_socket.py
+commandes sur les terminaux côté client : python client_poke_socket
+
+
 Dans le dossier run : 
 	- pokemon_socket est composé de fonctions
 	- pokemon_socket est importé dans script_partie1
 	- script_partie1 implémente partiellement ces fonctions pour être utilisé par deux fichiers clients
 	- les sockets client peuvent communiquer avec le socket serveur lancé par script_partie1
 	- l'implémentation n'a pu être terminé faute de temps
-	
+
+en se placant dans le dossier run :
+commandes côté serveur : python script_partie1.py
+commandes sur les terminaux côté client : python client_poke_socket
