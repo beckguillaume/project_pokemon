@@ -41,5 +41,5 @@ Dans le dossier run :
 	- l'implémentation n'a pu être terminé faute de temps
 
 en se placant dans le dossier run :
-commandes côté serveur : python script_partie1.py
+commandes côté serveur : python poke_script_run.py
 commandes sur les terminaux côté client : python client_poke_socket

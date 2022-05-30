@@ -1,7 +1,17 @@
 # --------------------------------
 # Importation des modules
 # --------------------------------
+'''
+Dans cette version "run" du script, le fichier pokemon_socket est importé et est partiellement 
+implémenté. En lancant ce script, les clients peuvent donner leur nom, recevoir les messages 
+d'accueil et le message indiquant le premier joueur. La partie ne peut être joué que sur le serveur 
+pour l'instant. Il faut réussir à faire fonctionner les réceptions et émissions de messages 
+dans le script client.
 
+L'implémentation est fonctionnelle mais n'est pas optimisé, ni très claire. 
+Ceci est dû à la nécessité d'adapter les fonctions sockets au script existant. 
+Avec plus de temps, il serait possible d'harmoniser les deux parties.
+'''
 import random
 import pokemon_socket
 
@@ -127,7 +137,8 @@ dic_joueur = [{"joueur": "gertrude",
 # -------------------------------------------
 
 
-###Fonction pour récupérer nom du joueur + check si présent bdd
+###Fonction de vérification du nom des joueurs dans la bdd, récupérés à la création du socket
+###Envoi du message d'accueil de la partie
 def start(players):
     for player in (players):
         #bdd search joueur
@@ -448,12 +459,19 @@ class actions():
 # # Lancement de la partie
 # # --------------------------------
 
+'''
+Dans la fonction create_server_socket : - on crée le serveur socket
+                                        - on attend les connexions client
+                                        - on demande le nom des joueurs
+                                        - on retourne la liste des sockets et noms de joueur associés
+'''
 (server_socket,info_joueurs)=pokemon_socket.create_server_socket()
 #(info_j1,info_j2)=info_joueurs
 #(socket_j1,nom_j1)=info_j1
 #(socket_j2,nom_j2)=info_j2
 joueurs_sockets=[info_joueurs[0][0],info_joueurs[1][0]]
 
+#start() prend les infos joueurs en arguemnt et retourne les noms des joueurs
 (pokemaster)=start(info_joueurs)
 print("start")
 
@@ -502,7 +520,9 @@ while nbr_poke_2 > 0 and nbr_poke_1 > 0 and game_in == True:
     again="on"
     while again == "on" and nbr_poke_2 > 0 and game_in == True:
         #print("C'est au tour de", joueur_2[0])
-        print("\033[0;35m" + "C'est au tour de", joueur_2[0] + "\033[0m")
+        msg="\033[0;35m" + "C'est au tour de ", joueur_2[0] + "\033[0m"
+        print(msg)
+        pokemon_socket.broadcast_message(joueurs_sockets, msg)
         #info_poke_actif(joueur_2)
         #print("game en cours")
         (game_in, perte_poke)=game.menu_jeu(joueur_2, joueur_1)
