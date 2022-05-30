@@ -1,0 +1,5 @@
+[{
+    "nom": "Albert",
+    "pokemons":["Pikachu","Fantominus","Spectrum"],
+    "etats" :["actif","inactif","actif"]
+}]
