@@ -15,7 +15,10 @@ pour lancer le script :
 python script_partie1.py
 
 PARTIE 2 : Sidney & Felix
-
+DISCLAIMER :
+La partie, donc les intéraction avec la BDD ne fonctionne pas, nous avons compris
+Les différentes intéraction à effectuer avec la BDD et les fichiers json, mais
+nous n'avons pas réussis à manipuler et intéragit avec ces deux objets.
 
 PARTIE 3 : Arthur et Soufian
 
